@@ -34,20 +34,22 @@ class TableDanhSachNguoiDung extends Component {
                                     <td>{person.loaiNguoiDung}</td>
                                     <td>
                                         <button onClick={() => {
-                                            let { errors } = this.props.state
+                                            let errors = {...this.props.state.errors}
                                             for (let i in errors) {
                                                 errors[i] = ''
                                             }
                                             this.props.setStateIsInValid(true);
+                                            this.props.setStateErrors(errors);
                                             this.props.setStateDisableUpdate(false);
                                             this.props.setStateDisableRegister(true);
                                             this.props.setStateDisableUser(true);
                                             this.props.dispatch(editUserAction(person.taiKhoan));
-                                        
+
                                         }}
                                             className="btn btn-primary mr-2">Chỉnh sửa</button>
                                         <button onClick={() => {
-                                            let { values, errors } = this.props.state
+                                            let errors = {...this.props.state.errors}
+                                            let values = {...this.props.state.values}
                                             for (let i in values) {
                                                 values[i] = ''
                                                 if (i === "loaiNguoiDung") {
@@ -57,7 +59,10 @@ class TableDanhSachNguoiDung extends Component {
                                             for (let i in errors) {
                                                 errors[i] = ''
                                             }
-                                            this.props.setStateIsInValid(true)
+                                            this.props.setStateIsInValid(true);
+                                            this.props.setStateErrors(errors);
+                                            this.props.setStateValues(values);
+                                            this.props.setStateDisableUser(false);
                                             this.props.dispatch(deleteUserAction(person.taiKhoan))
                                         }} className="btn btn-danger">Xóa</button>
                                     </td>

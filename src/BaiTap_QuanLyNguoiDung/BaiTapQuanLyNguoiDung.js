@@ -61,11 +61,8 @@ class BaiTapQuanLyNguoiDung extends Component {
     }
     componentDidUpdate = (preProps, preState) => {
         if (preProps.editUser.taiKhoan !== this.props.editUser.taiKhoan) {
-            console.log(123)
             this.setState({
                 values: this.props.editUser
-            }, () => {
-                console.log(this.props.editUser)
             })
         }
     }

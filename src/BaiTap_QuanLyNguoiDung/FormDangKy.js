@@ -68,6 +68,7 @@ class FormDangKy extends Component {
                 valid = false;
             }
         }
+        console.log(values)
         for (let key in errors) {
             if (errors[key] !== '') {
                 valid = false;
@@ -80,8 +81,8 @@ class FormDangKy extends Component {
     }
     //kiểm tra điều kiện nút đăng kí 
     handleSubmit = (event) => {
-        let values = { ...this.props.state.values };
-        let { taiKhoan, hoTen, matKhau, email, sdt, loaiNguoiDung } = { ...this.props.state.values }
+        let values = {...this.props.state.values};
+        let { taiKhoan, hoTen, matKhau, email, sdt, loaiNguoiDung } = this.props.state.values
         event.preventDefault();
         if (!this.kiemTraDuLieuNguoiDung()) {
             this.props.setStateIsInValid(true)
@@ -125,6 +126,7 @@ class FormDangKy extends Component {
         let values = { ...this.props.state.values };
         let valuesUpdate = { ...this.props.state.values };
         if (!this.kiemTraDuLieuNguoiDung()) {
+            this.props.setStateIsInValid(true)
             Swal.fire({
                 icon: 'error',
                 title: 'Cập Nhật không thành công',
