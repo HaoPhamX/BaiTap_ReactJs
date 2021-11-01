@@ -59,8 +59,8 @@ class FormDangKy extends Component {
     }
     //kiểm tra dữ liệu người dùng
     kiemTraDuLieuNguoiDung = () => {
-
-        let { values, errors } = this.props.state;
+        let values = { ...this.props.state.values };
+        let errors = { ...this.props.state.errors };
         let valid = this.props.state.isInvalid;
         for (let key in values) {
             if (values[key] === '') {
@@ -73,15 +73,17 @@ class FormDangKy extends Component {
                 valid = false;
             }
         }
+        console.log(valid)
+        this.props.setStateValues(values);
+        this.props.setStateErrors(errors);
         return valid
     }
     //kiểm tra điều kiện nút đăng kí 
     handleSubmit = (event) => {
-        let { values, errors } = this.props.state;
+        let values = { ...this.props.state.values };
         let { taiKhoan, hoTen, matKhau, email, sdt, loaiNguoiDung } = { ...this.props.state.values }
         event.preventDefault();
         if (!this.kiemTraDuLieuNguoiDung()) {
-            this.props.setStateErrors(errors)
             this.props.setStateIsInValid(true)
             Swal.fire({
                 icon: 'error',
@@ -102,13 +104,13 @@ class FormDangKy extends Component {
                 sdt: sdt,
                 loaiNguoiDung: loaiNguoiDung
             }
-            this.props.setStateValues(values)
             for (let key in values) {
                 values[key] = '';
                 if (key === "loaiNguoiDung") {
                     values[key] = "Khách Hàng"
                 }
             }
+            this.props.setStateValues(values)
             Swal.fire({
                 icon: 'success',
                 title: 'Đăng kí thành công',
@@ -120,8 +122,8 @@ class FormDangKy extends Component {
     }
     //kiểm tra nút cập nhật
     handleUpdate = () => {
-        let { values } = this.props.state;
-        let valuesUpdate = { ... this.props.state.values };
+        let values = { ...this.props.state.values };
+        let valuesUpdate = { ...this.props.state.values };
         if (!this.kiemTraDuLieuNguoiDung()) {
             Swal.fire({
                 icon: 'error',
@@ -138,6 +140,7 @@ class FormDangKy extends Component {
                     values[key] = "Khách Hàng"
                 }
             }
+            this.props.setStateValues(values)
             Swal.fire({
                 icon: 'success',
                 title: 'Cập nhật thành công',
@@ -150,7 +153,7 @@ class FormDangKy extends Component {
     //kiểm tra tài khoản có tồn tại trên redux không
     checkTaiKhoan = () => {
         let errorsUpdate = { ...this.props.state.errors }
-        let danhSachNguoiDung = this.props.danhSachNguoiDung;
+        let danhSachNguoiDung = [...this.props.danhSachNguoiDung];
         let valid = this.props.state.isInvalid;
         let index = danhSachNguoiDung.findIndex(user => user.taiKhoan === this.props.state.values.taiKhoan);
         if (this.props.state.values.taiKhoan === '') {
@@ -172,13 +175,24 @@ class FormDangKy extends Component {
                         <div className="col-6">
                             <div className="form-group">
                                 <label>Tài Khoản</label>
-                                <input
-                                    onBlur={(event) => {
-                                        this.handleChangeValue(event);
-                                        this.checkTaiKhoan();
-                                    }}
-                                    onChange={this.handleChangeValue}
-                                    value={this.props.state.values.taiKhoan} type="text" className="form-control" name="taiKhoan" />
+                                {
+                                    !this.props.state.disableUser ?
+                                        <input
+                                            onBlur={(event) => {
+                                                this.handleChangeValue(event);
+                                                this.checkTaiKhoan();
+                                            }}
+                                            onChange={this.handleChangeValue}
+                                            value={this.props.state.values.taiKhoan} type="text" className="form-control" name="taiKhoan" />
+                                        :
+                                        <input disabled
+                                            onBlur={(event) => {
+                                                this.handleChangeValue(event);
+                                                this.checkTaiKhoan();
+                                            }}
+                                            onChange={this.handleChangeValue}
+                                            value={this.props.state.values.taiKhoan} type="text" className="form-control" name="taiKhoan" />
+                                }
                                 <span className="text-danger">{this.props.state.errors.taiKhoan}</span>
                             </div>
                         </div>
@@ -228,6 +242,7 @@ class FormDangKy extends Component {
                             <div className="form-group">
                                 <label>Mã loại người dùng</label>
                                 <select name="loaiNguoiDung"
+                                    onBlur={this.handleChangeValue}
                                     onChange={this.handleChangeValue}
                                     className="form-control">
                                     <option disabled>Vui lòng chọn!</option>
@@ -238,12 +253,32 @@ class FormDangKy extends Component {
                             </div>
                         </div>
                     </div >
-                    <button type="submit" onClick={this.checkTaiKhoan} className="btn btn-success ml-3">Đăng kí</button>
-                    <button type="button"
-                        onClick={() => {
-                            this.handleUpdate()
-                        }}
-                        className="btn btn-primary ml-2">Cập nhật</button>
+                    {
+                        !this.props.state.disableRegister ?
+                            <button type="submit" onClick={this.checkTaiKhoan} className="btn btn-success ml-3">Đăng kí</button>
+                            :
+                            <button disabled type="submit"
+                                onClick={(event) => {
+                                    this.checkTaiKhoan(event)
+                                    this.props.setStateDisableRegister(false)
+                                }}
+                                className="btn btn-success ml-3">Đăng kí</button>
+                    }
+                    {this.props.state.disableUpdate ?
+                        <button disabled type="button"
+                            onClick={() => {
+                                this.handleUpdate()
+                            }}
+                            className="btn btn-primary ml-2">Cập nhật</button>
+                        : <button type="button"
+                            onClick={() => {
+                                this.handleUpdate()
+                                this.props.setStateDisableUpdate(true)
+                                this.props.setStateDisableRegister(false)
+                                this.props.setStateDisableUser(false);
+                            }}
+                            className="btn btn-primary ml-2">Cập nhật</button>
+                    }
                 </form>
             </div>
         )

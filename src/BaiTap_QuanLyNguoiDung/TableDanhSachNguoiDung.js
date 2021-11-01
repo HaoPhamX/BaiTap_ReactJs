@@ -34,13 +34,16 @@ class TableDanhSachNguoiDung extends Component {
                                     <td>{person.loaiNguoiDung}</td>
                                     <td>
                                         <button onClick={() => {
-                                            let { errors } = this.props.state;
+                                            let { errors } = this.props.state
                                             for (let i in errors) {
                                                 errors[i] = ''
                                             }
-                                            this.props.setStateIsInValid(true)
+                                            this.props.setStateIsInValid(true);
+                                            this.props.setStateDisableUpdate(false);
+                                            this.props.setStateDisableRegister(true);
+                                            this.props.setStateDisableUser(true);
                                             this.props.dispatch(editUserAction(person.taiKhoan));
-
+                                        
                                         }}
                                             className="btn btn-primary mr-2">Chỉnh sửa</button>
                                         <button onClick={() => {

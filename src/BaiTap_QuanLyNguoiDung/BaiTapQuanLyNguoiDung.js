@@ -6,6 +6,9 @@ import { connect } from 'react-redux'
 class BaiTapQuanLyNguoiDung extends Component {
 
     state = {
+        disableUser: false,
+        disableUpdate: true,
+        disableRegister: false,
         isInvalid: true,
         values: {
             taiKhoan: '',
@@ -23,7 +26,21 @@ class BaiTapQuanLyNguoiDung extends Component {
             sdt: ''
         }
     }
-
+    setStateDisableUser = (disableUser) => {
+        this.setState({
+            disableUser: disableUser
+        })
+    }
+    setStateDisableUpdate = (disableUpdate) => {
+        this.setState({
+            disableUpdate: disableUpdate
+        })
+    }
+    setStateDisableRegister = (disableRegister) => {
+        this.setState({
+            disableRegister: disableRegister
+        })
+    }
     setStateValues = (values) => {
         this.setState({
 
@@ -43,12 +60,12 @@ class BaiTapQuanLyNguoiDung extends Component {
         })
     }
     componentDidUpdate = (preProps, preState) => {
-        console.log('pre',preProps.editUser);
-        console.log('current',this.props.editUser)
         if (preProps.editUser.taiKhoan !== this.props.editUser.taiKhoan) {
             console.log(123)
             this.setState({
                 values: this.props.editUser
+            }, () => {
+                console.log(this.props.editUser)
             })
         }
     }
@@ -63,6 +80,9 @@ class BaiTapQuanLyNguoiDung extends Component {
                         setStateValues={this.setStateValues}
                         setStateErrors={this.setStateErrors}
                         setStateIsInValid={this.setStateIsInValid}
+                        setStateDisableUpdate={this.setStateDisableUpdate}
+                        setStateDisableRegister={this.setStateDisableRegister}
+                        setStateDisableUser={this.setStateDisableUser}
                     />
                 </div>
                 <h3 className="bg-dark text-white p-2 my-3">Danh sách người dùng</h3>
@@ -71,7 +91,11 @@ class BaiTapQuanLyNguoiDung extends Component {
                         state={this.state}
                         setStateValues={this.setStateValues}
                         setStateErrors={this.setStateErrors}
-                        setStateIsInValid={this.setStateIsInValid} />
+                        setStateIsInValid={this.setStateIsInValid}
+                        setStateDisableUpdate={this.setStateDisableUpdate}
+                        setStateDisableRegister={this.setStateDisableRegister}
+                        setStateDisableUser={this.setStateDisableUser} />
+
                 </div>
             </div>
         )

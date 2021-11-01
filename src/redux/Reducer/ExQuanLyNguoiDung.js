@@ -52,7 +52,7 @@ export const ExQuanLyNguoiDung = (state = initialState, action) => {
             if (index !== -1) {
                 state.danhSachNguoiDung[index] = action.user;
             }
-            // state.editUser = { stt: Date.now(), taiKhoan: '@dweq', hoTen: 'Phạm Xuân Hào', matKhau: '123@Adsadsa', email: 'phamxuanhao1297@gmail.com', sdt: '0339316911', loaiNguoiDung: 'Doanh Nghiệp' }
+            state.editUser = {stt: '', taiKhoan: '', hoTen: '', matKhau: '', email: '', sdt: '', loaiNguoiDung: 'Khách Hàng'};
             return { ...state, danhSachNguoiDung: [...state.danhSachNguoiDung] }
         }
         default:
