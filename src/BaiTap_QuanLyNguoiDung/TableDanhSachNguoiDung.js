@@ -63,6 +63,8 @@ class TableDanhSachNguoiDung extends Component {
                                             this.props.setStateErrors(errors);
                                             this.props.setStateValues(values);
                                             this.props.setStateDisableUser(false);
+                                            this.props.setStateDisableUpdate(true)
+                                            this.props.setStateDisableRegister(false)
                                             this.props.dispatch(deleteUserAction(person.taiKhoan))
                                         }} className="btn btn-danger">Xóa</button>
                                     </td>

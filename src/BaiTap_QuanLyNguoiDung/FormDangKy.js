@@ -112,6 +112,7 @@ class FormDangKy extends Component {
                 }
             }
             this.props.setStateValues(values)
+            this.props.setStateDisableRegister(false)
             Swal.fire({
                 icon: 'success',
                 title: 'Đăng kí thành công',
@@ -143,6 +144,9 @@ class FormDangKy extends Component {
                 }
             }
             this.props.setStateValues(values)
+            this.props.setStateDisableUpdate(true)
+            this.props.setStateDisableRegister(false)
+            this.props.setStateDisableUser(false);
             Swal.fire({
                 icon: 'success',
                 title: 'Cập nhật thành công',
@@ -262,7 +266,6 @@ class FormDangKy extends Component {
                             <button disabled type="submit"
                                 onClick={(event) => {
                                     this.checkTaiKhoan(event)
-                                    this.props.setStateDisableRegister(false)
                                 }}
                                 className="btn btn-success ml-3">Đăng kí</button>
                     }
@@ -275,9 +278,6 @@ class FormDangKy extends Component {
                         : <button type="button"
                             onClick={() => {
                                 this.handleUpdate()
-                                this.props.setStateDisableUpdate(true)
-                                this.props.setStateDisableRegister(false)
-                                this.props.setStateDisableUser(false);
                             }}
                             className="btn btn-primary ml-2">Cập nhật</button>
                     }
