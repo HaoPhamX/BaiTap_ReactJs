@@ -1,7 +1,9 @@
 import {combineReducers} from 'redux'
 import Exburger from './ExBurger';
+import { ExQuanLyNguoiDung } from './ExQuanLyNguoiDung';
 
 const rootReducer = combineReducers({
-    Exburger
+    Exburger,
+    ExQuanLyNguoiDung
 })
 export default rootReducer;
