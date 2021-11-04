@@ -1,0 +1,1 @@
+export const THU_DO = "THU_DO";
